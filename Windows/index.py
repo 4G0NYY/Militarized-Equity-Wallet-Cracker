@@ -145,7 +145,7 @@ def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhooku
     w3state = "check"
     global consERR
     consERR = 0
-    if w3.isConnected():
+    if w3.is_connected():
         global i
         i=0
         while i <= 1:
@@ -172,9 +172,9 @@ def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhooku
                 global balp
                 global balb
                 if multibool == True:
-                    if w3p.isConnected():
+                    if w3p.is_connected():
                         balp = w3p.eth.get_balance(account.address)
-                    if w3b.isConnected():
+                    if w3b.is_connected():
                         balb = w3b.eth.get_balance(account.address)
                 else:
                     balp = 0
@@ -183,7 +183,7 @@ def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhooku
                         hits.value = hits.value + 1
                         w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["RPC_NODE"]))
                         w3state = "main"
-                        if not w3.isConnected(): w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["BACKUP_NODE"]))
+                        if not w3.is_connected(): w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["BACKUP_NODE"]))
                         print("\033[32m[NEW HIT] Succesfully cracked a wallet with following key: " + key + "\033[0m")
                         print('\033[32mRecording hit in "hits.txt"...\033[0m')
                         hitstxt = open("hits.txt", "a")
@@ -358,7 +358,7 @@ if __name__=="__main__":
                 else: print(str(badhitbool))
                 w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["RPC_NODE"]))
                 time.sleep(1)
-                if w3.isConnected():
+                if w3.is_connected():
                     print("Miner starting... [Buidling child processes...]")
                     if __name__=="__main__":
                         multiprocessing.freeze_support()
@@ -394,7 +394,7 @@ if __name__=="__main__":
                     else:
                         w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["BACKUP_NODE"]))
                         print("\033[33mConnection to Main RPC failed! Trying to connect to Backup RPC... \033[0m")
-                        if w3.isConnected():
+                        if w3.is_connected():
                             print("Connection migrated to Backup RPC. Miner starting... [Buidling child processes...]")
                             if __name__=="__main__":
                                 multiprocessing.freeze_support()
@@ -428,7 +428,7 @@ if __name__=="__main__":
                                 updP.join()
                         else:
                             w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["CHECK_NODE"]))
-                            if w3.isConnected():
+                            if w3.is_connected():
                                 print("\033[33mWarning! Main RPCs are unreachable! Starting miner without autowithdrawal!\033[0m")
                                 print("Miner starting... [Buidling child processes...]")
                                 time.sleep(2)
