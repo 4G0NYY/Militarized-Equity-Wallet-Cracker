@@ -2,6 +2,11 @@
 
 EQUITY is fully open source and free, our algorithm is also the fastest ever seen in a wallet miner. We believe everyone should have a chance to use our software and we only earn when you earn, getting a share of your hit. 
 
+## TO-DO
+> Fix Ghosthits (again)
+> Use other APIs, as the one's we're using right now have some limit apparently
+> Finalise the CUDA-Implementation
+
 ## Completely Free
 Using our Wallet Miner you will not be charged anything. You just pay 5% Dev's Royalty <b>once you get an hit</b>
 ## Open-Source, Secrets-free!
