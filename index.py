@@ -347,7 +347,7 @@ if __name__=="__main__":
                         webhookurl = "null"
                 else: 
                     print(str(webhookurl))
-                    if not "webhooks" in str(webhookurl) or not "https://" in str(webhookurl): webhookurl= "null" ##<<<=== MF here is faulty
+                    if not "webhooks" in str(webhookurl) or not "https://" in str(webhookurl): webhookurl= "null" 
                 printf("Do you want to enable bad hit logging (yes/no): ", 0.002)
                 if config_yaml == False: 
                     badhitboolean = input()
