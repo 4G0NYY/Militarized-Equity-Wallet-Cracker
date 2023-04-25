@@ -328,7 +328,6 @@ if __name__=="__main__":
                 if config_yaml == False: 
                     cudabool = input("")
                     if cudabool.lower() == "yes" or cudabool.lower() == "y":
-                        printf("\033[31mGPU Acceleration not available.\n\033[0m", 0.002)
                         cudabool = False
                         cudabool = True
                         printf("\033[32mNVIDIA CUDA ACCELERATION: ", 0.002)
@@ -347,7 +346,7 @@ if __name__=="__main__":
                         webhookurl = "null"
                 else: 
                     print(str(webhookurl))
-                    if not "webhooks" in str(webhookurl) or not "https://" in str(webhookurl): webhookurl= "null" ##<<<=== MF here is faulty
+                    if not "webhooks" in str(webhookurl) or not "https://" in str(webhookurl): webhookurl= "null" 
                 printf("Do you want to enable bad hit logging (yes/no): ", 0.002)
                 if config_yaml == False: 
                     badhitboolean = input()
@@ -478,4 +477,4 @@ if __name__=="__main__":
         else:
             print("[ EXCEPTION HELPER ] - An error occurred during code excecution. Printing error...\n")
             print(e)
-            input("")
+            input("") 
