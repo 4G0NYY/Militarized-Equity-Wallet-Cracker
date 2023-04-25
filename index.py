@@ -328,7 +328,6 @@ if __name__=="__main__":
                 if config_yaml == False: 
                     cudabool = input("")
                     if cudabool.lower() == "yes" or cudabool.lower() == "y":
-                        printf("\033[31mGPU Acceleration not available.\n\033[0m", 0.002)
                         cudabool = False
                         cudabool = True
                         printf("\033[32mNVIDIA CUDA ACCELERATION: ", 0.002)
