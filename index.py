@@ -4,7 +4,7 @@ import time
 import yaml
 import json
 import secrets
-#import numpy as np
+import numpy as np
 import multiprocessing
 #from numba import jit, cuda
 from blessed import Terminal
