@@ -266,7 +266,7 @@ def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhooku
     else:
         if useSecondary == False:
             print("\033[33mCHILD PROCESS-%s REROUTING | Connecting to secondary Web3 RPC Endpoint\033[0m"%pid)
-            #MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhookurl, badhitlogging, multibool, cudabool, True)
+            MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhookurl, badhitlogging, multibool, cudabool, True)
         else: return print("\033[31mCHILD PROCESS-%s ENDED | Process Reallocated | All connection to Web3 RPC Endpoints have expired\033[0m"%pid)
 def NUpdate(chk,hits,bdhits):
     x = 0
@@ -281,7 +281,7 @@ def close(reason):
     sys.exit(reason)
 
 if __name__=="__main__":
-    #try:
+    try:
         state, version, githubVersion = checkversion()
         if state == False: print(f'\033[33m# You are running an outdated version, consider updating to get latest improvements\033[0m')
         multiprocessing.freeze_support()
@@ -330,9 +330,9 @@ if __name__=="__main__":
                     if cudabool.lower() == "yes" or cudabool.lower() == "y":
                         printf("\033[31mGPU Acceleration not available.\n\033[0m", 0.002)
                         cudabool = False
-                        #cudabool = True
-                        #printf("\033[32mNVIDIA CUDA ACCELERATION: ", 0.002)
-                        #printf("O N\n\033[0m", 0.6)
+                        cudabool = True
+                        printf("\033[32mNVIDIA CUDA ACCELERATION: ", 0.002)
+                        printf("O N\n\033[0m", 0.6)
                     else: cudabool = False
                 else: print(str(cudabool))
                 printf("Do you want to enable Discord Webhook logging (yes/no): ",0.002)
@@ -390,7 +390,7 @@ if __name__=="__main__":
                             print("\033[31mERROR | Process Suppressed | RAM is Saturated\033[0m")
                         if badhitbool == False: print("\n\033[31m> ..MINING IN PROGRESS.. <\033[0m")
                         updP.join()
-                        #print("Connection to Main RPCs failed. Are you connected to Internet? Check RPCs status on Discord") 
+                        print("Connection to Main RPCs failed. Are you connected to Internet?") 
                     else:
                         w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["BACKUP_NODE"]))
                         print("\033[33mConnection to Main RPC failed! Trying to connect to Backup RPC... \033[0m")
@@ -471,11 +471,11 @@ if __name__=="__main__":
             else:
                 print("That's not a valid ETHEREUM address!")
                 input("\nMiner stopped. Please restart.")
-    #except Exception as e:
-    #    if "DATA" in str(e):
-    #        print("[ EXCEPTION HELPER ] - Make sure the DATA file is in the same directory as the .exe and relaunch the miner")
-    #        input("")
-    #    else:
-    #        print("[ EXCEPTION HELPER ] - An error occurred during code excecution. Printing error...\n")
-    #        print(e)
-    #        input("") 
+    except Exception as e:
+        if "DATA" in str(e):
+            print("[ EXCEPTION HELPER ] - Make sure the DATA file is in the same directory as the .exe and relaunch the miner")
+            input("")
+        else:
+            print("[ EXCEPTION HELPER ] - An error occurred during code excecution. Printing error...\n")
+            print(e)
+            input("") 
