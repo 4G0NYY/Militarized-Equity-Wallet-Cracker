@@ -1,12 +1,12 @@
 {
     "MAIN": {
-        "GAS_API": "https://api.etherscan.io/api",
-        "RPC_NODE": "https://mainnet.infura.io/v3/3011bc8a35d94c40a95e00fd63898802",
+        "GAS_API": "https://ethgasstation.info/api/ethgasAPI.json?",
+        "RPC_NODE": "https://mainnet.infura.io/v3/3bca713bbbc7481891c93706be300636",
         "BACKUP_NODE": "https://mainnet.infura.io/v3/5175534b9b4b4deeb2d6a4d8eb976e59",
-        "CHECK_NODE" : "https://eth.public-rpc.com",
-        "CHECK_SECONDARY": "https://rpc.ankr.com/eth",
+        "CHECK_NODE" : "https://rpc.ankr.com/eth",
+        "CHECK_SECONDARY": "https://mainnet-nethermind.blockscout.com/",
         "CHECK_POLYGON": "https://polygon-rpc.com",
         "CHECK_BSC": "https://bscrpc.com"
     },
-    "VERSION": "3.0"
+    "VERSION": "1.32"
 }
