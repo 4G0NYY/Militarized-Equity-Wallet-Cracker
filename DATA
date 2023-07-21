@@ -3,7 +3,6 @@
         "GAS_API": "https://ethgasstation.info/api/ethgasAPI.json?",
         "RPC_NODE": "https://cloudflare-eth.com/",
         "BACKUP_NODE": "https://main-light.eth.linkpool.io/",
-        "CHECK_NODE" : "https://mainnet.infura.io/v3/3011bc8a35d94c40a95e00fd63898802",
         "CHECK_SECONDARY": "https://eth-mainnet.g.alchemy.com/v2/POU3i_y5LE7kJlSJO83rRTg5VPqFfrbe",
         "CHECK_POLYGON": "https://polygon-rpc.com",
         "CHECK_BSC": "https://bsc.publicnode.com/"

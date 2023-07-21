@@ -9,9 +9,13 @@ import secrets
 import numpy as np
 import multiprocessing
 from pypresence import Presence   #<--- As soon as I uncomment the rich presence, it sometimes doesn't want to launch :(
-#from api import CHECK_NODE
+from api import check_api_availability
 from numba import jit, cuda
 from blessed import Terminal
+
+def apicheck():
+    api_list_file = "api.txt"
+    CHECK_NODE = check_api_availability(api_list_file)
 
 
 def Spinner():
@@ -140,8 +144,8 @@ def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhooku
     global pid
     pid = str(os.getpid())
     global w3
-    if useSecondary == False: w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["CHECK_NODE"]))
-    else: w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["CHECK_SECONDARY"]))
+    if useSecondary == False: w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']))
+    w3 = Web3(Web3.HTTPProvider(check_api_availability))
     w3p = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["CHECK_POLYGON"]))
     w3b = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["CHECK_BSC"]))
     global w3state
@@ -168,7 +172,7 @@ def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhooku
                     webhook.execute()
             try:
                 if w3state == "main": 
-                    w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["CHECK_NODE"]))
+                    w3 = Web3(Web3.HTTPProvider(check_api_availability))
                     w3state = "check"
                 account = w3.eth.account.from_key(key)
                 bal = w3.eth.get_balance(account.address)
@@ -290,7 +294,7 @@ def rich():
     RPC.connect()
     RPC.update(state="Mining Crypto with EquityWMiner!" ,
             large_image="equit" ,
-            buttons=[{"label": "Website", "url": "https://equityminer.eu/"}, {"label": "Discord", "url": "https://discord.gg/equity-miner-community-974033944116858980"}])
+            buttons=[{"label": "Website", "url": "https://equityminer.eu/"}, {"label": "Discord", "url": "https://discord.gg/jVtGA73XXT"}])
 
 if __name__=="__main__":
     try:

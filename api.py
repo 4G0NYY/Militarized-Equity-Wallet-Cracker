@@ -1,28 +1,23 @@
 import requests
 
-def load_api(url):
-    try:
-        response = requests.get(url)
-        if response.status_code == 200:
-            return response.json()
-        else:
-            print(f"API {url} returned status code {response.status_code}")
-    except requests.exceptions.RequestException as e:
-        print(f"Error loading API {url}: {e}")
-    return None
+def check_api_availability(api_list_file):
+    CHECK_NODE = []
+    with open(api_list_file, 'r') as file:
+        api_endpoints = file.readlines()
 
-def load_apis_from_file(file_path):
-    with open(file_path, 'r') as file:
-        api_urls = [line.strip() for line in file]
+    for api_endpoint in api_endpoints:
+        api_url = api_endpoint.strip()
+        try:
+            response = requests.get(api_url)
+            if response.status_code == 200: 
+                CHECK_NODE.append(api_url)
+        except requests.exceptions.RequestException:
+            pass  
 
-    for url in api_urls:
-        result = load_api(url)
-        if result:
-            return result
+    return CHECK_NODE
 
-    print("No APIs responded successfully.")
-    return None
-
-api_file = 'api_urls.txt'
-CHECK_NODE = load_apis_from_file(api_file)
-
+if __name__ == "__main__":
+    api_list_file = "api.txt"
+    CHECK_NODE = check_api_availability(api_list_file)
+    print("Available APIs:")
+    print(CHECK_NODE)
