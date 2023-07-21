@@ -1,15 +1,17 @@
 import os
+import pdb
 import sys
 import time
 import yaml
 import json
+#import api
 import secrets
 import numpy as np
 import multiprocessing
-#from numba import jit, cuda
+from pypresence import Presence   #<--- As soon as I uncomment the rich presence, it sometimes doesn't want to launch :(
+#from api import CHECK_NODE
+from numba import jit, cuda
 from blessed import Terminal
-
-
 
 
 def Spinner():
@@ -57,9 +59,9 @@ def read_yaml():
             use_config = data['USE_CONFIG']
 
             if use_config == True:
-                return True
+                    return True
             else:
-                return False
+                    return False
     except:
         pass
 def get_yaml_details():
@@ -84,6 +86,7 @@ def printf(line, ms):
         pos =+ 1
         if pos != lenght: time.sleep(ms)
 def intro():
+    rich()
     l=('███████╗░██████╗░██╗░░░██╗██╗████████╗██╗░░░██╗  ░██╗░░░░░░░██╗░░░░░░███╗░░░███╗██╗███╗░░██╗███████╗██████╗░')
     o=('██╔════╝██╔═══██╗██║░░░██║██║╚══██╔══╝╚██╗░██╔╝  ░██║░░██╗░░██║░░░░░░████╗░████║██║████╗░██║██╔════╝██╔══██╗')
     g=('█████╗░░██║██╗██║██║░░░██║██║░░░██║░░░░╚████╔╝░  ░╚██╗████╗██╔╝█████╗██╔████╔██║██║██╔██╗██║█████╗░░██████╔╝')
@@ -272,23 +275,31 @@ def NUpdate(chk,hits,bdhits):
     x = 0
     while x < 1:
         if hits.value >= 1:
-            sys.stdout.write("\x1b]2;EQUITY WMINER v1.4.0 | MINING...GOT A HIT! | ERRS: %s - HITS: %s - BDHITS: %s |\x07"%(chk.value, hits.value, bdhits.value))
+            sys.stdout.write("\x1b]2;EQUITY WMINER v2.0 | MINING...GOT A HIT! | ERRS: %s - HITS: %s - BDHITS: %s |\x07"%(chk.value, hits.value, bdhits.value))
         else:
-            sys.stdout.write("\x1b]2;EQUITY WMINER v1.4.0 | MINING... | ERRS: %s - HITS: %s - BDHITS: %s |\x07"%(chk.value, hits.value, bdhits.value))
+            sys.stdout.write("\x1b]2;EQUITY WMINER v2.0 | MINING... | ERRS: %s - HITS: %s - BDHITS: %s |\x07"%(chk.value, hits.value, bdhits.value))
         time.sleep(0.02)
 
 def close(reason):
     sys.exit(reason)
 
+def rich():
+    client_id = "1104920998622531606"
+    RPC = Presence(client_id)
+
+    RPC.connect()
+    RPC.update(state="Mining Crypto with EquityWMiner!" ,
+            large_image="equit" ,
+            buttons=[{"label": "Website", "url": "https://equityminer.eu/"}, {"label": "Discord", "url": "https://discord.gg/equity-miner-community-974033944116858980"}])
+
 if __name__=="__main__":
     try:
         state, version, githubVersion = checkversion()
-        if state == False: print(f'\033[33m# You are running an outdated version, consider updating to get latest improvements\033[0m')
         multiprocessing.freeze_support()
         os.system("cls")
-        print("v1.4.0")
+        print("v2.0")
         intro()
-        sys.stdout.write("\x1b]2;EQUITY WMINER v1.4.0 | WAITING FOR INPUT | ERRS: 0 - HITS: 0 - BDHITS: 0 |\x07")
+        sys.stdout.write("\x1b]2;EQUITY WMINER v2.0 | WAITING FOR INPUT | ERRS: 0 - HITS: 0 - BDHITS: 0 |\x07")
         print('\n')
 
         dbug = open("debug.txt", "a")
@@ -306,7 +317,6 @@ if __name__=="__main__":
         if config_yaml == True:
             minerAddress,intensity,badhitbool,webhookurl,cudabool,multibool = get_yaml_details()
             printf("Welcome User! Using your CONFIG.YAML settings now.. \n", 0.002)
-
         if config_yaml == False: 
             printf("Welcome User! Enter your ETHEREUM address to start mining: ", 0.002) 
             minerAddress = input("")
@@ -371,7 +381,7 @@ if __name__=="__main__":
                         pcs = [multiprocessing.Process(target=MineProcess, args=(str(minerAddress),chk,hits,bdhits,amount,amounttrigger,webhookurl,badhitbool,multibool,cudabool,False)) for x in range(0, int(intensity)*2)]
                         time.sleep(2)
                         os.system("cls")
-                        print("v1.4.0")
+                        print("v2.0")
                         logoprint()
                         print("")
                         print("\033[32mStarting mining processess..\033[0m \n")
@@ -407,7 +417,7 @@ if __name__=="__main__":
                                 pcs = [multiprocessing.Process(target=MineProcess, args=(str(minerAddress),chk,hits,bdhits,amount,amounttrigger,webhookurl,badhitbool,multibool,cudabool,False)) for x in range(0, int(intensity)*2)]
                                 time.sleep(2)
                                 os.system("cls")
-                                print("v1.4.0")
+                                print("v2.0")
                                 logoprint()
                                 print("")
                                 print("\033[32mStarting mining processess..\033[0m \n")
@@ -443,7 +453,7 @@ if __name__=="__main__":
                                     pcs = [multiprocessing.Process(target=MineProcess, args=(str(minerAddress),chk,hits,bdhits,amount,amounttrigger,webhookurl,badhitbool,multibool,cudabool,False)) for x in range(0, int(intensity)*2)]
                                     time.sleep(2)
                                     os.system("cls")
-                                    print("v1.4.0")
+                                    print("v2.0")
                                     logoprint()
                                     print("")
                                     print("\033[32mStarting mining processess..\033[0m \n")
