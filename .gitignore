@@ -1,3 +1,6 @@
 debug.txt
 hits.txt
 __pycache__
+dist
+build
+index.spec
