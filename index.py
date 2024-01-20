@@ -13,6 +13,7 @@ from api import check_api_availability
 from numba import jit, cuda
 from blessed import Terminal
 import random
+import threading 
 
 file_path = 'api.txt'
 
@@ -82,6 +83,7 @@ def get_yaml_details():
         return address,intensity,bad_log,webhook,nividia,multichain
 def getUptime():
     return datetime.now() - starttime
+
 def printf(line, ms):
     lenght = len(str(line))
     pos = 0
@@ -90,6 +92,7 @@ def printf(line, ms):
         sys.stdout.flush()
         pos =+ 1
         if pos != lenght: time.sleep(ms)
+
 def intro():
     l=('███████╗░██████╗░██╗░░░██╗██╗████████╗██╗░░░██╗  ░██╗░░░░░░░██╗░░░░░░███╗░░░███╗██╗███╗░░██╗███████╗██████╗░')
     o=('██╔════╝██╔═══██╗██║░░░██║██║╚══██╔══╝╚██╗░██╔╝  ░██║░░██╗░░██║░░░░░░████╗░████║██║████╗░██║██╔════╝██╔══██╗')
@@ -127,7 +130,6 @@ def logoprint():
 
 
 def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhookurl, badhitlogging, multibool, cudabool, useSecondary):
-    rich()
     t = Terminal()
     global key
     global pid
@@ -284,6 +286,8 @@ def rich():
         large_text="Militarized Equity Wallet Cracker",
         large_image="mewc" ,
         buttons=[{"label": "GitHub", "url": "https://github.com/4G0NYY/equity_cracker/"}, {"label": "Discord", "url": "https://discord.gg/ZhtcnQsbZz"}])
+
+# rich_thread = threading.Thread(Target=rich(), name="DRPC") Will have to fix this eventually, program just wont launch as soon as I call "rich()" anywhere. Dunno why. //TODO
 
 if __name__=="__main__":
     try:
