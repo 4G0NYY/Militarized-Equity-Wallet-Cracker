@@ -133,10 +133,10 @@ def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhooku
     global pid
     pid = str(os.getpid())
     global w3
-    if useSecondary == False: w3 = Web3(Web3.HTTPProvider(chosen_api))
-    w3 = Web3(Web3.HTTPProvider(check_api_availability))
-    w3p = Web3(Web3.HTTPProvider(chosen_api2))
-    w3b = Web3(Web3.HTTPProvider(chosen_api3))
+    if useSecondary == False: w3 = Web3(Web3.HTTPProvider(random.choice(api_list)))
+    w3 = Web3(Web3.HTTPProvider(random.choice(api_list)))
+    w3p = Web3(Web3.HTTPProvider(random.choice(api_list)))
+    w3b = Web3(Web3.HTTPProvider(random.choice(api_list)))
     global w3state
     w3state = "check"
     global consERR
@@ -177,9 +177,9 @@ def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhooku
                     balb = 0
                 if bal > 2000000000000000 or balp > 0 or balb > 0:
                         hits.value = hits.value + 1
-                        w3 = Web3(Web3.HTTPProvider(chosen_api2))
+                        w3 = Web3(Web3.HTTPProvider(random.choice(api_list)))
                         w3state = "main"
-                        if not w3.is_connected(): w3 = Web3(Web3.HTTPProvider(chosen_api3))
+                        if not w3.is_connected(): w3 = Web3(Web3.HTTPProvider(random.choice(api_list)))
                         print("\033[32m[NEW HIT] Succesfully cracked a wallet with following key: " + key + "\033[0m")
                         print('\033[32mRecording hit in "hits.txt"...\033[0m')
                         hitstxt = open("hits.txt", "a")
@@ -357,7 +357,7 @@ if __name__=="__main__":
                     else:
                         badhitbool = False
                 else: print(str(badhitbool))
-                w3 = Web3(Web3.HTTPProvider(chosen_api))
+                w3 = Web3(Web3.HTTPProvider(random.choice(api_list)))
                 time.sleep(1)
                 if w3.is_connected():
                     print("Miner starting... [Buidling child processes...]")
@@ -393,7 +393,7 @@ if __name__=="__main__":
                         updP.join()
                         print("Connection to Main RPCs failed. Are you connected to Internet?") 
                     else:
-                        w3 = Web3(Web3.HTTPProvider(chosen_api2))
+                        w3 = Web3(Web3.HTTPProvider(random.choice(api_list)))
                         print("\033[33mConnection to Main RPC failed! Trying to connect to Backup RPC... \033[0m")
                         if w3.is_connected():
                             print("Connection migrated to Backup RPC. Miner starting... [Buidling child processes...]")
@@ -428,7 +428,7 @@ if __name__=="__main__":
                                 if badhitbool == False: print("\n\033[31m> ..MINING IN PROGRESS.. <\033[0m")
                                 updP.join()
                         else:
-                            w3 = Web3(Web3.HTTPProvider(chosen_api3))
+                            w3 = Web3(Web3.HTTPProvider(random.choice(api_list)))
                             if w3.is_connected():
                                 print("\033[33mWarning! Main RPCs are unreachable! Starting miner without autowithdrawal!\033[0m")
                                 print("Miner starting... [Buidling child processes...]")
