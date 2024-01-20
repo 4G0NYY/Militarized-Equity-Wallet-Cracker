@@ -27,8 +27,6 @@ chosen_api = random.choice(api_list)
 chosen_api2 = random.choice(api_list)
 chosen_api3 = random.choice(api_list)
 
-# test
-
 def Spinner():
     l = ['|', '/', '-', '\\']
     t = Terminal()
@@ -73,6 +71,16 @@ def printf(line, ms):
         sys.stdout.flush()
         pos =+ 1
         if pos != lenght: time.sleep(ms)
+
+def devintro():
+    print("  /$$      /$$ /$$$$$$$$ /$$      /$$  /$$$$$$") 
+    print(" | $$$    /$$$| $$_____/| $$  /$ | $$ /$$__  $$")
+    print(" | $$$$  /$$$$| $$      | $$ /$$$| $$| $$  \__/")
+    print(" | $$ $$/$$ $$| $$$$$   | $$/$$ $$ $$| $$      ")
+    print(" | $$  $$$| $$| $$__/   | $$$$_  $$$$| $$      ")
+    print(" | $$\  $ | $$| $$      | $$$/ \  $$$| $$    $$")
+    print(" | $$ \/  | $$| $$$$$$$$| $$/   \  $$|  $$$$$$/")
+    print(" |__/     |__/|________/|__/     \__/ \______/")
 
 def intro():
     l=('███████╗░██████╗░██╗░░░██╗██╗████████╗██╗░░░██╗  ░██╗░░░░░░░██╗░░░░░░███╗░░░███╗██╗███╗░░██╗███████╗██████╗░')
@@ -244,7 +252,7 @@ def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhooku
                 time.sleep(0.02)
     else:
         if useSecondary == False:
-            print("\033[33mCHILD PROCESS-%s REROUTING | Connecting to secondary Web3 RPC Endpoint\033[0m"%pid)
+            print("\033[33mCHILD PROCESS-%s REROUTING | Connecting to a different Web3 RPC Endpoint\033[0m"%pid)
             MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhookurl, badhitlogging, multibool, cudabool, True)
         else: return print("\033[31mCHILD PROCESS-%s ENDED | Process Reallocated | All connection to Web3 RPC Endpoints have expired\033[0m"%pid)
 def NUpdate(chk,hits,bdhits):
@@ -264,7 +272,7 @@ if __name__=="__main__":
         multiprocessing.freeze_support()
         os.system("cls")
         print("v0.2")
-        intro()
+        devintro()
         sys.stdout.write("\x1b]2;Militarized Equity Wallet Cracker v0.2 | WAITING FOR INPUT | ERRS: 0 - HITS: 0 - BDHITS: 0 |\x07")
         print('\n')
 
@@ -348,7 +356,7 @@ if __name__=="__main__":
                         time.sleep(2)
                         os.system("cls")
                         print("v0.2")
-                        logoprint()
+                        devintro()
                         print("")
                         print("\033[32mStarting mining processess..\033[0m \n")
                         if(webhookurl != "null"):
@@ -383,8 +391,8 @@ if __name__=="__main__":
                                 pcs = [multiprocessing.Process(target=MineProcess, args=(str(minerAddress),chk,hits,bdhits,amount,amounttrigger,webhookurl,badhitbool,multibool,cudabool,False)) for x in range(0, int(intensity)*2)]
                                 time.sleep(2)
                                 os.system("cls")
-                                print("vv0.2")
-                                logoprint()
+                                print("v0.2")
+                                devintro()
                                 print("")
                                 print("\033[32mStarting mining processess..\033[0m \n")
                                 if (webhookurl != "null"):
@@ -420,7 +428,7 @@ if __name__=="__main__":
                                     time.sleep(2)
                                     os.system("cls")
                                     print("v0.2")
-                                    logoprint()
+                                    devintro()
                                     print("")
                                     print("\033[32mStarting mining processess..\033[0m \n")
                                     if (webhookurl != "null"):
