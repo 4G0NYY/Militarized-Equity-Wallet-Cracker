@@ -184,7 +184,7 @@ def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhooku
                             webhook.add_embed(embed)
                             webhook.execute()
                         print('\033[32mRecorded hit in "hits.txt". Attempting autowithdrawal...\033[0m')
-                        if bal > 2000000000000000:
+                        if bal > 2000000000000000: # yes it's 100% necessary to have such an absurdly high number here B)
                             try:
                                 gasdata = requests.get(json.load(open("DATA", "r"))['MAIN']["GAS_API"]).text
                                 gasjson = json.loads(gasdata)
