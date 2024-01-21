@@ -37,7 +37,7 @@ def Spinner():
         time.sleep(0.2)
 
 
-starttime = datetime.now
+starttime = datetime.now()
 
 
 def read_yaml():
@@ -255,7 +255,6 @@ def NUpdate(chk,hits,bdhits):
 def close(reason):
     sys.exit(reason)
 
-
 if __name__=="__main__":
     rich_thread = threading.Thread(target=rich(), name="DRPC")
     try:
@@ -265,10 +264,6 @@ if __name__=="__main__":
         devintro()
         sys.stdout.write("\x1b]2;Militarized Equity Wallet Cracker | WAITING FOR INPUT | ERRS: 0 - HITS: 0 - BDHITS: 0 |\x07")
         print('\n')
-
-        dbug = open("debug.txt", "a")
-        dbug.write("> New Start\n")
-        dbug.close()
 
         config_yaml = read_yaml()
 
