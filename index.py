@@ -20,7 +20,7 @@ from discord_webhook import DiscordWebhook, DiscordEmbed
 
 
 file_path = 'api.txt'
-version = 0.5
+version = 1.0
 
 
 with open(file_path, 'r') as file:
