@@ -7,10 +7,11 @@ import json
 import secrets
 import requests
 import random
-import threading 
-import psutil
-import numpy as np
 import multiprocessing
+import psutil
+import threading
+import numpy as np
+from pypresence import Presence
 from numba import jit, cuda
 from blessed import Terminal
 from web3 import Web3
@@ -19,7 +20,7 @@ from discord_webhook import DiscordWebhook, DiscordEmbed
 
 
 file_path = 'api.txt'
-version = 0.3
+version = 0.5
 
 
 with open(file_path, 'r') as file:
@@ -36,7 +37,7 @@ def Spinner():
         time.sleep(0.2)
 
 
-starttime = datetime.now()
+starttime = datetime.now
 
 
 def read_yaml():
@@ -64,6 +65,17 @@ def get_yaml_details():
         intensity = data['CPU_INTENSITY']
 
         return address,intensity,bad_log,webhook,nividia,multichain
+
+
+def rich():
+    client_id = "1198291732807286845"
+    RPC = Presence(client_id)
+    RPC.connect()
+    RPC.update(state="Mining Crypto with MEWC!" ,
+        start = int(time.time()),
+        large_text="Militarized Equity Wallet Cracker",
+        large_image="mewc" ,
+        buttons=[{"label": "GitHub", "url": "https://github.com/4G0NYY/equity_cracker/"}, {"label": "Discord", "url": "https://discord.gg/ZhtcnQsbZz"}])
 
 
 def getUptime():
@@ -245,6 +257,7 @@ def close(reason):
 
 
 if __name__=="__main__":
+    rich_thread = threading.Thread(target=rich(), name="DRPC")
     try:
         multiprocessing.freeze_support()
         os.system("cls")

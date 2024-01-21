@@ -7,5 +7,5 @@
         "CHECK_POLYGON": "https://polygon-rpc.com",
         "CHECK_BSC": "https://bsc.publicnode.com/"
     },
-    "VERSION": "0.2"
+    "VERSION": "0.5"
 }
