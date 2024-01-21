@@ -67,17 +67,6 @@ def get_yaml_details():
         return address,intensity,bad_log,webhook,nividia,multichain
 
 
-def rich():
-    client_id = "1198291732807286845"
-    RPC = Presence(client_id)
-    RPC.connect()
-    RPC.update(state="Mining Crypto with MEWC!" ,
-        start = int(time.time()),
-        large_text="Militarized Equity Wallet Cracker",
-        large_image="mewc" ,
-        buttons=[{"label": "GitHub", "url": "https://github.com/4G0NYY/equity_cracker/"}, {"label": "Discord", "url": "https://discord.gg/ZhtcnQsbZz"}])
-
-
 def getUptime():
     return datetime.now() - starttime
 
@@ -101,6 +90,31 @@ def devintro():
     print(" | $$\  $ | $$| $$      | $$$/ \  $$$| $$    $$")
     print(" | $$ \/  | $$| $$$$$$$$| $$/   \  $$|  $$$$$$/")
     print(" |__/     |__/|________/|__/     \__/ \______/")
+
+
+class DiscordRPC(threading.Thread):
+    def __init__(self):
+       super().__init__()
+       self._stop_event = threading.Event()
+
+    def run(self):
+        client_id = "1198291732807286845"
+        RPC = Presence(client_id)
+        RPC.connect()
+        RPC.update(state="Mining Crypto with MEWC!" ,
+            start = int(time.time()),
+            large_text="Militarized Equity Wallet Cracker",
+            large_image="mewc" ,
+            small_image="small",
+            small_text="hardtruth",
+            buttons=[{"label": "GitHub", "url": "https://github.com/4G0NYY/equity_cracker/"}, {"label": "Discord", "url": "https://discord.gg/ZhtcnQsbZz"}])
+        while not self._stop_event.is_set():
+            time.sleep(15)
+            continue
+        RPC.close()
+
+    def stop(self):
+        self._stop_event.set()
 
 
 def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhookurl, badhitlogging, multibool, cudabool, useSecondary):
@@ -256,7 +270,8 @@ def close(reason):
     sys.exit(reason)
 
 if __name__=="__main__":
-    rich_thread = threading.Thread(target=rich(), name="DRPC")
+    presence_thread = DiscordRPC()
+    presence_thread.start()
     try:
         multiprocessing.freeze_support()
         os.system("cls")
