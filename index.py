@@ -17,15 +17,15 @@ from web3 import Web3
 from datetime import datetime
 from discord_webhook import DiscordWebhook, DiscordEmbed
 
+
 file_path = 'api.txt'
+version = 0.3
+
 
 with open(file_path, 'r') as file:
         global api_list
         api_list = file.read().splitlines()
 
-chosen_api = random.choice(api_list)
-chosen_api2 = random.choice(api_list)
-chosen_api3 = random.choice(api_list)
 
 def Spinner():
     l = ['|', '/', '-', '\\']
@@ -35,7 +35,9 @@ def Spinner():
         sys.stdout.flush()
         time.sleep(0.2)
 
+
 starttime = datetime.now()
+
 
 def read_yaml():
     try:
@@ -49,6 +51,8 @@ def read_yaml():
                     return False
     except:
         pass
+
+
 def get_yaml_details():
     with open('config.yaml') as f:
         data = yaml.load(f,Loader=yaml.FullLoader)
@@ -60,8 +64,11 @@ def get_yaml_details():
         intensity = data['CPU_INTENSITY']
 
         return address,intensity,bad_log,webhook,nividia,multichain
+
+
 def getUptime():
     return datetime.now() - starttime
+
 
 def printf(line, ms):
     lenght = len(str(line))
@@ -72,6 +79,7 @@ def printf(line, ms):
         pos =+ 1
         if pos != lenght: time.sleep(ms)
 
+
 def devintro():
     print("  /$$      /$$ /$$$$$$$$ /$$      /$$  /$$$$$$") 
     print(" | $$$    /$$$| $$_____/| $$  /$ | $$ /$$__  $$")
@@ -81,41 +89,6 @@ def devintro():
     print(" | $$\  $ | $$| $$      | $$$/ \  $$$| $$    $$")
     print(" | $$ \/  | $$| $$$$$$$$| $$/   \  $$|  $$$$$$/")
     print(" |__/     |__/|________/|__/     \__/ \______/")
-
-def intro():
-    l=('███████╗░██████╗░██╗░░░██╗██╗████████╗██╗░░░██╗  ░██╗░░░░░░░██╗░░░░░░███╗░░░███╗██╗███╗░░██╗███████╗██████╗░')
-    o=('██╔════╝██╔═══██╗██║░░░██║██║╚══██╔══╝╚██╗░██╔╝  ░██║░░██╗░░██║░░░░░░████╗░████║██║████╗░██║██╔════╝██╔══██╗')
-    g=('█████╗░░██║██╗██║██║░░░██║██║░░░██║░░░░╚████╔╝░  ░╚██╗████╗██╔╝█████╗██╔████╔██║██║██╔██╗██║█████╗░░██████╔╝')
-    f=('██╔══╝░░╚██████╔╝██║░░░██║██║░░░██║░░░░░╚██╔╝░░  ░░████╔═████║░╚════╝██║╚██╔╝██║██║██║╚████║██╔══╝░░██╔══██╗')
-    w=('███████╗░╚═██╔═╝░╚██████╔╝██║░░░██║░░░░░░██║░░░  ░░╚██╔╝░╚██╔╝░░░░░░░██║░╚═╝░██║██║██║░╚███║███████╗██║░░██║')
-    m=('╚══════╝░░░╚═╝░░░░╚═════╝░╚═╝░░░╚═╝░░░░░░╚═╝░░░  ░░░╚═╝░░░╚═╝░░░░░░░░╚═╝░░░░░╚═╝╚═╝╚═╝░░╚══╝╚══════╝╚═╝░░╚═╝')
-    t = Terminal()
-    global current
-    current = -1
-    while current < 107:
-        current = current + 1
-        with t.location(current, 1):
-            print(l[current])
-        with t.location(current, 2):
-            print(o[current])
-        with t.location(current, 3):
-            print(g[current])
-        with t.location(current, 4):
-            print(f[current])
-        with t.location(current, 5):
-            print(w[current])
-        with t.location(current, 6):
-            print(m[current])
-        time.sleep(0.002)
-    sys.stdout.write("\n\n\n\n\n")
-
-def logoprint():
-    print('███████╗░██████╗░██╗░░░██╗██╗████████╗██╗░░░██╗  ░██╗░░░░░░░██╗░░░░░░███╗░░░███╗██╗███╗░░██╗███████╗██████╗░')
-    print('██╔════╝██╔═══██╗██║░░░██║██║╚══██╔══╝╚██╗░██╔╝  ░██║░░██╗░░██║░░░░░░████╗░████║██║████╗░██║██╔════╝██╔══██╗')
-    print('█████╗░░██║██╗██║██║░░░██║██║░░░██║░░░░╚████╔╝░  ░╚██╗████╗██╔╝█████╗██╔████╔██║██║██╔██╗██║█████╗░░██████╔╝')
-    print('██╔══╝░░╚██████╔╝██║░░░██║██║░░░██║░░░░░╚██╔╝░░  ░░████╔═████║░╚════╝██║╚██╔╝██║██║██║╚████║██╔══╝░░██╔══██╗')
-    print('███████╗░╚═██╔═╝░╚██████╔╝██║░░░██║░░░░░░██║░░░  ░░╚██╔╝░╚██╔╝░░░░░░░██║░╚═╝░██║██║██║░╚███║███████╗██║░░██║')
-    print('╚══════╝░░░╚═╝░░░░╚═════╝░╚═╝░░░╚═╝░░░░░░╚═╝░░░  ░░░╚═╝░░░╚═╝░░░░░░░░╚═╝░░░░░╚═╝╚═╝╚═╝░░╚══╝╚══════╝╚═╝░░╚═╝')
 
 
 def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhookurl, badhitlogging, multibool, cudabool, useSecondary):
@@ -255,6 +228,8 @@ def MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhooku
             print("\033[33mCHILD PROCESS-%s REROUTING | Connecting to a different Web3 RPC Endpoint\033[0m"%pid)
             MineProcess(minerAddress, chk, hits, bdhits, amount, amounttrigger, webhookurl, badhitlogging, multibool, cudabool, True)
         else: return print("\033[31mCHILD PROCESS-%s ENDED | Process Reallocated | All connection to Web3 RPC Endpoints have expired\033[0m"%pid)
+
+
 def NUpdate(chk,hits,bdhits):
     x = 0
     while x < 1:
@@ -264,16 +239,18 @@ def NUpdate(chk,hits,bdhits):
             sys.stdout.write("\x1b]2;Militarized Equity Wallet Cracker | MINING... | ERRS: %s - HITS: %s - BDHITS: %s |\x07"%(chk.value, hits.value, bdhits.value))
         time.sleep(0.02)
 
+
 def close(reason):
     sys.exit(reason)
+
 
 if __name__=="__main__":
     try:
         multiprocessing.freeze_support()
         os.system("cls")
-        print("v0.2")
+        print(version)
         devintro()
-        sys.stdout.write("\x1b]2;Militarized Equity Wallet Cracker v0.2 | WAITING FOR INPUT | ERRS: 0 - HITS: 0 - BDHITS: 0 |\x07")
+        sys.stdout.write("\x1b]2;Militarized Equity Wallet Cracker | WAITING FOR INPUT | ERRS: 0 - HITS: 0 - BDHITS: 0 |\x07")
         print('\n')
 
         dbug = open("debug.txt", "a")
@@ -355,7 +332,7 @@ if __name__=="__main__":
                         pcs = [multiprocessing.Process(target=MineProcess, args=(str(minerAddress),chk,hits,bdhits,amount,amounttrigger,webhookurl,badhitbool,multibool,cudabool,False)) for x in range(0, int(intensity)*2)]
                         time.sleep(2)
                         os.system("cls")
-                        print("v0.2")
+                        print(version)
                         devintro()
                         print("")
                         print("\033[32mStarting mining processess..\033[0m \n")
@@ -391,7 +368,7 @@ if __name__=="__main__":
                                 pcs = [multiprocessing.Process(target=MineProcess, args=(str(minerAddress),chk,hits,bdhits,amount,amounttrigger,webhookurl,badhitbool,multibool,cudabool,False)) for x in range(0, int(intensity)*2)]
                                 time.sleep(2)
                                 os.system("cls")
-                                print("v0.2")
+                                print(version)
                                 devintro()
                                 print("")
                                 print("\033[32mStarting mining processess..\033[0m \n")
@@ -427,7 +404,7 @@ if __name__=="__main__":
                                     pcs = [multiprocessing.Process(target=MineProcess, args=(str(minerAddress),chk,hits,bdhits,amount,amounttrigger,webhookurl,badhitbool,multibool,cudabool,False)) for x in range(0, int(intensity)*2)]
                                     time.sleep(2)
                                     os.system("cls")
-                                    print("v0.2")
+                                    print(version)
                                     devintro()
                                     print("")
                                     print("\033[32mStarting mining processess..\033[0m \n")
