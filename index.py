@@ -9,6 +9,7 @@ import requests
 import random
 import multiprocessing
 import psutil
+import threading
 import numpy as np
 from pypresence import Presence
 from numba import jit, cuda
@@ -19,7 +20,7 @@ from discord_webhook import DiscordWebhook, DiscordEmbed
 
 
 file_path = 'api.txt'
-version = 0.3
+version = 0.5
 
 
 with open(file_path, 'r') as file:
@@ -256,8 +257,8 @@ def close(reason):
 
 
 if __name__=="__main__":
+    rich_thread = threading.Thread(target=rich(), name="DRPC")
     try:
-        rich()
         multiprocessing.freeze_support()
         os.system("cls")
         print(version)
