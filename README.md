@@ -2,6 +2,31 @@
 
 Militarized Equity Wallet Cracker is fully open source and free, our algorithm is also the fastest ever seen in a wallet miner. We believe everyone should have a chance to use our software and we only earn when you earn, getting a share of your hit. 
 
+## usage
+### prerequisits
+you will need the latest [build tools for visual studio](https://aka.ms/vs/17/release/vs_BuildTools.exe)
+python 3.8+ installed [Python](https://www.python.org/downloads/)
+pip installed (check the square at python install)
+python + pip in PATH (check the square at python install)
+
+### installation
+#### one click install
+if youre on windows run "one-click-setup.bat". that's it. you installed and ran it.
+
+if youre on linux run "one-click-setup.sh". that's it. you installed and ran it.
+
+#### manual install
+open a cmd and cd into this directory (cd C:\Users\pet\Downloads\MEWC)
+run `pip install -r requirements.txt`
+wait for it to install
+run `py index.py`
+
+### usage
+the program will ask you for your ETH-address. on your crypto-wallet (can be any one of them), click on Ethereum and then on Receive, then copy the hex code
+paste the hex code into the program
+the rest type either `yes` or `no` depending on what you want/need
+DO NOT USE CUDA IF YOU HAVE A NON NVIDIA GPU.
+
 ## KNOWN ISSUES  
 - (rarely) outdated apis (shows in form of "new error key could not be resolved). program will continue to work either way.
 - (rarely) program will have a display error putting 2 lines on the same line (no error/graphical but not relevant) 
@@ -17,6 +42,8 @@ Using our Wallet Miner you will not be charged anything. You just pay 5% Dev's R
 No malware, No spyware, No keylogger and other naughty stuff. We are the revolution among Wallet Mining.
 ## Multiprocessing
 100 Mining Process, 1 Console. Minimal terms, always. 
+## easy to use
+because of the nature of python this code is incredibly easy to use.
 
 ## Beside the codes & FAQ
 ### Code logic
